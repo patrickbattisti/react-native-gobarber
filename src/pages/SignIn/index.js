@@ -13,7 +13,7 @@ import {
   SignLinkText,
 } from './styles';
 
-export default function SignIn() {
+export default function SignIn({ navigation }) {
   return (
     <Background>
       <Container>
@@ -32,12 +32,12 @@ export default function SignIn() {
             placeholder="Digite sua senha"
           />
 
-          <SubmitButton onPress={() => console.log('clicou')}>
+          <SubmitButton onPress={() => navigation.navigate('SignUp')}>
             Acessar
           </SubmitButton>
         </Form>
 
-        <SignLink onPress={() => console.log('clicou')}>
+        <SignLink onPress={() => navigation.navigate('SignUp')}>
           <SignLinkText>Criar conta gratuita</SignLinkText>
         </SignLink>
       </Container>
