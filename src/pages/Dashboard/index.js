@@ -1,16 +1,48 @@
-import React from 'react';
-import { View } from 'react-native';
-
+import React, { useEffect, useState } from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
+import api from '~/services/api';
 import Background from '~/components/Background';
-
-// import { Container } from './styles';
+import Appointment from '~/components/Appointment';
+import { Container, Title, List } from './styles';
 
 export default function Dashboard() {
+  const [appointments, setAppointments] = useState([]);
+  useEffect(() => {
+    const loadAppointments = async () => {
+      const response = await api.get('appointments');
+
+      setAppointments(response.data);
+    };
+
+    loadAppointments();
+  }, []);
+
+  const handleCancel = async id => {
+    const response = await api.delete(`appointments/${id}`);
+
+    setAppointments(
+      appointments.map(appointment =>
+        appointment.id === id
+          ? { ...appointment, canceled_at: response.data.canceled_at }
+          : appointment
+      )
+    );
+  };
+
   return (
     <Background>
-      <View />
+      <Container>
+        <Title>Agendamentos</Title>
+
+        <List
+          data={appointments}
+          keyExtractor={item => String(item.id)}
+          renderItem={({ item }) => (
+            <Appointment data={item} onCancel={handleCancel} />
+          )}
+        />
+      </Container>
     </Background>
   );
 }
