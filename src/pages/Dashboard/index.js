@@ -37,9 +37,9 @@ export default function Dashboard() {
 
         <List
           data={appointments}
-          keyExtractor={item => String(item.id)}
-          renderItem={({ item }) => (
-            <Appointment data={item} onCancel={handleCancel} />
+          keyExtractor={appointment => String(appointment.id)}
+          renderItem={({ item: appointment }) => (
+            <Appointment data={appointment} onCancel={handleCancel} />
           )}
         />
       </Container>
